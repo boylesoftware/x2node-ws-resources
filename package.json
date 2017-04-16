@@ -1,0 +1,38 @@
+{
+  "name": "x2node-ws-resources",
+  "version": "1.0.0-alpha.0",
+  "description": "Persistent resources for web services module.",
+  "keywords": [
+    "webservice",
+    "x2node",
+    "nodejs"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "eslint .",
+    "preversion": "npm test",
+    "postversion": "git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boylesoftware/x2node-ws-resources.git"
+  },
+  "author": "Lev Himmelfarb <lev@boylesoftware.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/boylesoftware/x2node-ws-resources/issues"
+  },
+  "homepage": "https://github.com/boylesoftware/x2node-ws-resources#readme",
+  "engines": {
+    "node": ">=4.3.2"
+  },
+  "dependencies": {
+    "x2node-common": "^1.2.0",
+    "x2node-dbos": "^1.0.0",
+    "x2node-validators": "^1.0.0",
+    "x2node-ws": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.17.1"
+  }
+}
