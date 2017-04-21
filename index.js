@@ -8,36 +8,24 @@
  */
 'use strict';
 
-const CollectionResourceHandler = require(
+const ResourceHandlersFactory = require('./lib/resource-handlers-factory.js');
+
+
+// export the base handler classes
+exports.CollectionResourceHandler = require(
 	'./lib/collection-resource-handler.js');
-const IndividualResourceHandler = require(
+exports.IndividualResourceHandler = require(
 	'./lib/individual-resource-handler.js');
 
-
 /**
- * Create collection resource endpoint handler.
+ * Create resource handlers factory.
  *
  * @param {module:x2node-dbos.DataSource} ds Data source.
  * @param {module:x2node-dbos~DBOFactory} dboFactory DBO factory.
- * @param {string} rsrcPath Resource path.
- * @param {Object} [options] Options.
+ * @param {Object} [defaultOptions] Default options for handlers.
  */
-exports.createCollectionResourceHandler = function(
-	ds, dboFactory, rsrcPath, options) {
+exports.createResourceHandlersFactory = function(
+	ds, dboFactory, defaultOptions) {
 
-	return new CollectionResourceHandler(ds, dboFactory, rsrcPath, options);
-};
-
-/**
- * Create individual resource endpoint handler.
- *
- * @param {module:x2node-dbos.DataSource} ds Data source.
- * @param {module:x2node-dbos~DBOFactory} dboFactory DBO factory.
- * @param {string} rsrcPath Resource path.
- * @param {Object} [options] Options.
- */
-exports.createIndividualResourceHandler = function(
-	ds, dboFactory, rsrcPath, options) {
-
-	return new IndividualResourceHandler(ds, dboFactory, rsrcPath, options);
+	return new ResourceHandlersFactory(ds, dboFactory, defaultOptions);
 };
