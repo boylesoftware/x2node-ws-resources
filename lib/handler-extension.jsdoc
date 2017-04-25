@@ -9,7 +9,7 @@
 /**
  * Context object for a record search operation.
  *
- * @typedef {Object} module:x2node-ws-resources.SearchTransactionContext
+ * @typedef {module:x2node-ws-resources~TransactionContext} module:x2node-ws-resources.SearchTransactionContext
  * @property {Object} querySpec
  * @property {Object.<string,*>} queryParams
  */
@@ -18,7 +18,6 @@
  * Before search DBO is created.
  *
  * @function module:x2node-ws-resources.HandlerExtension#prepareSearch
- * @param {module:x2node-ws~ServiceCall} call
  * @param {module:x2node-ws-resources.SearchTransactionContext} txCtx
  * @returns {(*|Promise)} Nothing, or a promise, which can be rejected to abort
  * the action and return the rejection object as the handler response.
@@ -27,7 +26,6 @@
  *
  *
  * @function module:x2node-ws-resources.HandlerExtension#beforeSearch
- * @param {module:x2node-dbos~Transaction} tx
  * @param {module:x2node-ws-resources.SearchTransactionContext} txCtx
  * @returns {Promise}
  */
@@ -35,7 +33,6 @@
  *
  *
  * @function module:x2node-ws-resources.HandlerExtension#afterSearch
- * @param {module:x2node-dbos~Transaction} tx
  * @param {module:x2node-ws-resources.SearchTransactionContext} txCtx
  * @param {module:x2node-dbos~FetchDBO~Result} result
  * @returns {Promise}
@@ -45,7 +42,6 @@
  *
  * @function module:x2node-ws-resources.HandlerExtension#completeSearch
  * @param {(external:Error|module:x2node-ws~ServiceResponse)} [err]
- * @param {module:x2node-ws~ServiceCall} call
  * @param {module:x2node-ws-resources.SearchTransactionContext} txCtx
  * @param {module:x2node-dbos~FetchDBO~Result} [result]
  * @returns {Promise}
@@ -54,7 +50,7 @@
 /**
  * Context object for a single record read operation.
  *
- * @typedef {Object} module:x2node-ws-resources.ReadTransactionContext
+ * @typedef {module:x2node-ws-resources~TransactionContext} module:x2node-ws-resources.ReadTransactionContext
  * @property {Object} querySpec
  * @property {Object.<string,*>} queryParams
  */
@@ -63,7 +59,6 @@
  * Before read DBO is created.
  *
  * @function module:x2node-ws-resources.HandlerExtension#prepareRead
- * @param {module:x2node-ws~ServiceCall} call
  * @param {module:x2node-ws-resources.ReadTransactionContext} txCtx
  * @returns {(*|Promise)} Nothing, or a promise, which can be rejected to abort
  * the action and return the rejection object as the handler response.
@@ -72,7 +67,6 @@
  *
  *
  * @function module:x2node-ws-resources.HandlerExtension#beforeRead
- * @param {module:x2node-dbos~Transaction} tx
  * @param {module:x2node-ws-resources.ReadTransactionContext} txCtx
  * @returns {Promise}
  */
@@ -80,7 +74,6 @@
  *
  *
  * @function module:x2node-ws-resources.HandlerExtension#afterRead
- * @param {module:x2node-dbos~Transaction} tx
  * @param {module:x2node-ws-resources.ReadTransactionContext} txCtx
  * @param {Object} record
  * @returns {Promise}
@@ -90,7 +83,6 @@
  *
  * @function module:x2node-ws-resources.HandlerExtension#completeRead
  * @param {(external:Error|module:x2node-ws~ServiceResponse)} [err]
- * @param {module:x2node-ws~ServiceCall} call
  * @param {module:x2node-ws-resources.ReadTransactionContext} txCtx
  * @param {Object} [record]
  * @returns {Promise}
@@ -99,7 +91,7 @@
 /**
  * Context object for a new record creation operation.
  *
- * @typedef {Object} module:x2node-ws-resources.CreateTransactionContext
+ * @typedef {module:x2node-ws-resources~TransactionContext} module:x2node-ws-resources.CreateTransactionContext
  * @property {Object} recordTmpl
  */
 
@@ -107,7 +99,6 @@
  * After the record is validated.
  *
  * @function module:x2node-ws-resources.HandlerExtension#prepareCreate
- * @param {module:x2node-ws~ServiceCall} call
  * @param {module:x2node-ws-resources.CreateTransactionContext} txCtx
  * @returns {(*|Promise)} Nothing, or a promise, which can be rejected to abort
  * the action and return the rejection object as the handler response.
@@ -116,7 +107,6 @@
  *
  *
  * @function module:x2node-ws-resources.HandlerExtension#beforeCreate
- * @param {module:x2node-dbos~Transaction} tx
  * @param {module:x2node-ws-resources.CreateTransactionContext} txCtx
  * @returns {Promise}
  */
@@ -124,7 +114,6 @@
  *
  *
  * @function module:x2node-ws-resources.HandlerExtension#afterCreate
- * @param {module:x2node-dbos~Transaction} tx
  * @param {module:x2node-ws-resources.CreateTransactionContext} txCtx
  * @param {Object} record
  * @returns {Promise}
@@ -134,7 +123,6 @@
  *
  * @function module:x2node-ws-resources.HandlerExtension#completeCreate
  * @param {(external:Error|module:x2node-ws~ServiceResponse)} [err]
- * @param {module:x2node-ws~ServiceCall} call
  * @param {module:x2node-ws-resources.CreateTransactionContext} txCtx
  * @param {Object} [record]
  * @returns {Promise}
@@ -143,7 +131,7 @@
 /**
  * Context object for a record update operation.
  *
- * @typedef {Object} module:x2node-ws-resources.UpdateTransactionContext
+ * @typedef {module:x2node-ws-resources~TransactionContext} module:x2node-ws-resources.UpdateTransactionContext
  * @property {module:x2node-patches~RecordPatch} patch
  * @property {Object} selectionFilter
  * @property {Object.<string,*>} queryParams
@@ -154,7 +142,6 @@
  *
  *
  * @function module:x2node-ws-resources.HandlerExtension#prepareUpdate
- * @param {module:x2node-ws~ServiceCall} call
  * @param {module:x2node-ws-resources.UpdateTransactionContext} txCtx
  * @returns {(*|Promise)} Nothing, or a promise, which can be rejected to abort
  * the action and return the rejection object as the handler response.
@@ -163,7 +150,6 @@
  *
  *
  * @function module:x2node-ws-resources.HandlerExtension#beforeUpdate
- * @param {module:x2node-dbos~Transaction} tx
  * @param {module:x2node-ws-resources.UpdateTransactionContext} txCtx
  * @returns {Promise}
  */
@@ -171,7 +157,6 @@
  *
  *
  * @function module:x2node-ws-resources.HandlerExtension#afterUpdate
- * @param {module:x2node-dbos~Transaction} tx
  * @param {module:x2node-ws-resources.UpdateTransactionContext} txCtx
  * @param {Object} record
  * @returns {Promise}
@@ -181,7 +166,6 @@
  *
  * @function module:x2node-ws-resources.HandlerExtension#completeUpdate
  * @param {(external:Error|module:x2node-ws~ServiceResponse)} [err]
- * @param {module:x2node-ws~ServiceCall} call
  * @param {module:x2node-ws-resources.UpdateTransactionContext} txCtx
  * @param {Object} [record]
  * @returns {Promise}
@@ -190,7 +174,7 @@
 /**
  * Context object for a record deletion operation.
  *
- * @typedef {Object} module:x2node-ws-resources.DeleteTransactionContext
+ * @typedef {module:x2node-ws-resources~TransactionContext} module:x2node-ws-resources.DeleteTransactionContext
  * @property {Object} selectionFilter
  * @property {Object.<string,*>} queryParams
  * @property {module:x2node-dbos~DeleteDBO~Result} deleteResult
@@ -200,7 +184,6 @@
  *
  *
  * @function module:x2node-ws-resources.HandlerExtension#prepareDelete
- * @param {module:x2node-ws~ServiceCall} call
  * @param {module:x2node-ws-resources.DeleteTransactionContext} txCtx
  * @returns {(*|Promise)} Nothing, or a promise, which can be rejected to abort
  * the action and return the rejection object as the handler response.
@@ -209,7 +192,6 @@
  *
  *
  * @function module:x2node-ws-resources.HandlerExtension#beforeDelete
- * @param {module:x2node-dbos~Transaction} tx
  * @param {module:x2node-ws-resources.DeleteTransactionContext} txCtx
  * @returns {Promise}
  */
@@ -217,7 +199,6 @@
  *
  *
  * @function module:x2node-ws-resources.HandlerExtension#afterDelete
- * @param {module:x2node-dbos~Transaction} tx
  * @param {module:x2node-ws-resources.DeleteTransactionContext} txCtx
  * @returns {Promise}
  */
@@ -226,7 +207,6 @@
  *
  * @function module:x2node-ws-resources.HandlerExtension#completeDelete
  * @param {(external:Error|module:x2node-ws~ServiceResponse)} [err]
- * @param {module:x2node-ws~ServiceCall} call
  * @param {module:x2node-ws-resources.DeleteTransactionContext} txCtx
  * @returns {Promise}
  */
