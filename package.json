@@ -27,11 +27,11 @@
     "node": ">=4.3.2"
   },
   "dependencies": {
-    "x2node-common": "^1.2.1",
-    "x2node-dbos": "^1.0.0-beta.0",
-    "x2node-patches": "^1.1.0",
-    "x2node-validators": "^1.1.0",
-    "x2node-ws": "^1.0.0-beta.0"
+    "x2node-common": "^1.2.2",
+    "x2node-dbos": "^1.0.0-beta.1",
+    "x2node-patches": "^1.1.1",
+    "x2node-validators": "^1.1.1",
+    "x2node-ws": "^1.0.0-beta.1"
   },
   "devDependencies": {
     "eslint": "^3.17.1"
