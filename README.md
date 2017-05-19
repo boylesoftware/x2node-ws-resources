@@ -242,6 +242,8 @@ The module's `createResourceHandlersFactory()` function can also take an optiona
 
 Other options can be included and passed down to the handlers. Those options are made available to the handler extensions described further down in this manual and may be used to configure the handlers' behavior.
 
+The module uses `X2_APP` section for debug logging, which is the same as the [x2node-ws](https://www.npmjs.com/package/x2node-ws) module. Add it to `NODE_DEBUG` environment variable to see the debug messages (see [Node.js API docs](https://nodejs.org/docs/latest-v4.x/api/util.html#util_util_debuglog_section) for details).
+
 ## Dependent Resources
 
 The record types library has a concept of dependent record types. Records of a dependent record type have a reference to a record of the parent record type and therefore can exist only in the context of the parent record. In the example used in the [Usage](#usage) section such record type is _Order_, because an _Order_ record can exist only in the context of an _Account_ record. No _Order_ record can exist without an _Account_, to which it belongs, which makes it dependent.
