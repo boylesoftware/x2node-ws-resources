@@ -447,7 +447,7 @@ For example:
         {
           "id": 1,
           "productRef": "Product#10",
-          "quantity: 1
+          "quantity": 1
         }
       ]
     },
@@ -459,7 +459,7 @@ For example:
         {
           "id": 2,
           "productRef": "Product#10",
-          "quantity: 5
+          "quantity": 5
         }
       ]
     }
