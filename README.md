@@ -350,7 +350,7 @@ Here are some examples:
 * `f$accountRef.firstName:pre=da` - Select records whose `accountRef` reference property points at account records that have `firstName` property that starts with "da" (`:pre` is the prefix test described below).
 * `f$company` - Select records that have non-empty `company` property.
 * `f$company!` - Select records that have empty `company` property.
-* `f$email:lc=pat@example.com` - Select records that have `email` property transformed to lower case (`:lc` is the value transformation function described below) equal "pat@example.com".
+* `f$email:lc=pat@example.com` - Select records that have `email` property transformed to lower case (`:lc` is the value transformation function described below) equal "pat@<span></span>example.com".
 * `f$lastName:len:min=10` - Select records that have `lastName` property value at least 10 characters long (`:len` is a function and `:min` is the test).
 
 The following tests are supported:
