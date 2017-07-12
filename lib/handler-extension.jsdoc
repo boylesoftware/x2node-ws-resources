@@ -151,6 +151,15 @@
  *
  * @function module:x2node-ws-resources.HandlerExtension#beforeUpdate
  * @param {module:x2node-ws-resources.UpdateTransactionContext} txCtx
+ * @param {Object} record
+ * @returns {Promise}
+ */
+/**
+ *
+ *
+ * @function module:x2node-ws-resources.HandlerExtension#beforeUpdateSave
+ * @param {module:x2node-ws-resources.UpdateTransactionContext} txCtx
+ * @param {Object} record
  * @returns {Promise}
  */
 /**

@@ -687,9 +687,9 @@ The hooks are:
 
 * `prepareUpdate(txCtx)` - Called before the transaction is started and before the update DBO is created. The transaction context will have the `patch` and the `selectionFilter` and `queryParams` objects built according to the handler's default logic. The hook can modify these properties on the transaction context to influence the resulting update DBO.
 
-* `beforeUpdate(txCtx)` - Called after transaction is started but before the DBO is executed.
+* `beforeUpdate(txCtx, record)` - Called after transaction is started and the record to be updated is loaded from the database, but before the patch is applied. The `record` argument is the record loaded from the database with all properties fetched by default.
 
-* `beforeUpdateSave(txCtx, record)` - Called after the record is loaded from the database, patched and validated, but before it is saved back into the database. The `record` argument is the patched record ready to be saved. This hook behaves similarly to other `before` hooks, that is if it returns a promise that is rejected, the transaction is rolled back and the rejection reason is returned as the handler result.
+* `beforeUpdateSave(txCtx, record)` - Called after the record is loaded from the database, patched and validated, but before it is saved back into the database. The `record` argument is the patched record ready to be saved.
 
 * `afterUpdate(txCtx, record)` - Called after the DBO is executed but before the transaction is committed. The `record` argument is the updated record. The function must return a record object (or a promise of it) that will be used for the response. In the simplest case it simply returns the `record` argument passed into it. The `updateResult` object is available on the transaction context.
 
