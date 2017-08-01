@@ -624,6 +624,12 @@ Each handler method receives its own specific variation of the transaction conte
 
 * `delete(recordTypeName, filterSpec)` - A shortcut for building and executing a delete DBO.
 
+* `rejectIfExists(recordTypeName, filterSpec, httpStatusCode, errorMessage)` - A shortcut for checking if records of a given type matching the specified filter exist and if so, rejecting the returned promise with an error `ServiceResponse`. If matching records do not exist, the returned promise is fulfilled (with nothing).
+
+* `rejectIfNotExists(recordTypeName, filterSpec, httpStatusCode, errorMessage)` - A shortcut for checking if records of a given type matching the specified filter do not exist and if so, rejecting the returned promise with an error `ServiceResponse`. If matching records do exist, they are locked in shared mode for the transaction and the returned promise is fulfilled (with nothing).
+
+* `rejectIfNotExactNum(recordTypeName, filterSpec, expectedNum, httpStatusCode, errorMessage)` - A shortcut for checking if exact expected number of records of a given record type matching the specified filter exist and if it doesn't, return a promise that gets rejected with an error `ServiceResponse`. If the exact number of matching records exist, the returned promise is fulfilled (with nothing). The method also locks the matched records in shared mode for the transaction.
+
 #### Record Search Hooks
 
 These hooks are supported by the records collection resource handler implementation. In addition to the common methods and properties, the transaction context includes:
