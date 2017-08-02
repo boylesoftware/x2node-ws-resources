@@ -672,9 +672,9 @@ These hooks are supported by the records collection resource handler implementat
 
 The hooks are:
 
-* `prepareCreate(txCtx)` - Called before the transaction is started and before the insert DBO is created. The hook can modify the `recordTmpl` object on the transaction context to influence the resulting insert DBO.
+* `prepareCreate(txCtx, recordTmpl)` - Called before the transaction is started and before the insert DBO is created. The `recordTmpl` argument is the same as the `recordTmpl` object on the transaction context provided as an argument for convenience. The hook can modify the `recordTmpl` object to influence the resulting insert DBO.
 
-* `beforeCreate(txCtx)` - Called after transaction is started but before the DBO is executed.
+* `beforeCreate(txCtx, recordTmpl)` - Called after transaction is started but before the DBO is executed.
 
 * `afterCreate(txCtx, record)` - Called after the DBO is executed but before the transaction is committed. The `record` argument is the new record. The function must return a record object (or a promise of it) that will be used for the response. In the simplest case it simply returns the `record` argument passed into it.
 

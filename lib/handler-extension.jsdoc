@@ -10,7 +10,8 @@
  * Context object for a record search operation.
  *
  * @typedef {module:x2node-ws-resources~TransactionContext} module:x2node-ws-resources.SearchTransactionContext
- * @property {Object} querySpec
+ * @property {Object} querySpec Query specification built from the search
+ * parameters. Can be modified by the hook.
  * @property {Object.<string,*>} queryParams
  */
 
@@ -100,6 +101,7 @@
  *
  * @function module:x2node-ws-resources.HandlerExtension#prepareCreate
  * @param {module:x2node-ws-resources.CreateTransactionContext} txCtx
+ * @param {Object} recordTmpl
  * @returns {(*|Promise)} Nothing, or a promise, which can be rejected to abort
  * the action and return the rejection object as the handler response.
  */
