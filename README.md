@@ -494,7 +494,7 @@ The URL can take a `p` query string parameter, the same way as with the search o
 
 ### Record Creation
 
-The record creation operation is performed by sending an HTTP `POST` request to the records collection endpoint. The record template is provided in the request body in JSON format. For example:
+The record creation operation is performed by sending an HTTP `POST` request to the records collection endpoint. The record template is provided in the request body in JSON format (or any format, for which the application registers a marshaller). For example:
 
 ```http
 POST /accounts/1/orders HTTP/1.1
@@ -528,6 +528,8 @@ If the record data is invalid, an HTTP 400 (Bad Request) is returned with a JSON
 * `errorMessage` - General error description.
 * `validationErrors` - An object with specific error messages for the parts of the record that are invalid. The keys are JSON pointers (see [RFC 6901](https://tools.ietf.org/html/rfc6901)) for invalid record elements (empty string for the record as a whole), the values are arrays of strings that are error descrpitions for the invalid fields.
 
+When the handler calls the validators on the provided record template, it uses `onCreate` validators set.
+
 ### Record Update
 
 The record update operation is performed by sending an HTTP `PATCH` request (see [RFC 5789](https://tools.ietf.org/html/rfc5789)) to the individual record endpoint. The body can be specified in either _JSON Patch_ format (see [RFC 6902](https://tools.ietf.org/html/rfc6902)) or _JSON Merge Patch_ format (see [RFC 7396](https://tools.ietf.org/html/rfc7396)).
@@ -535,6 +537,8 @@ The record update operation is performed by sending an HTTP `PATCH` request (see
 The successful response depends on the `patch.response` handler option, which is described in the [Usage](#usage) section. By default, an HTTP 200 (OK) response is returned with the updated record data in the response body.
 
 If data validation errors occur, an HTTP 422 (Unprocessable Entity) response is returned with the validation errors in the response body the same way as for the [Record Creation](#markdown-header-record-creation) operation. Invalid patch document will result in an HTTP 400 (Bad Request) response and if no record exists at the endpoint URI an HTTP 404 (Not Found) response will be returned.
+
+When the handler calls the validators on the updated record, it uses `onUpdate` validators set.
 
 ### Record Delete
 
@@ -672,9 +676,11 @@ These hooks are supported by the records collection resource handler implementat
 
 The hooks are:
 
-* `prepareCreate(txCtx, recordTmpl)` - Called before the transaction is started and before the insert DBO is created. The `recordTmpl` argument is the same as the `recordTmpl` object on the transaction context provided as an argument for convenience. The hook can modify the `recordTmpl` object to influence the resulting insert DBO.
+* `prepareCreateSpec(txCtx, recordTmpl)` - Called before the transaction is started, before the insert DBO is created and before the record template is validated, which gives the hook a chance to make changes to the record template. The `recordTmpl` argument is the same as the `recordTmpl` object on the transaction context provided as an argument for convenience.
 
-* `beforeCreate(txCtx, recordTmpl)` - Called after transaction is started but before the DBO is executed.
+* `prepareCreate(txCtx, recordTmpl)` - Like `prepareCreateSpec`, but called after the record template is validated.
+
+* `beforeCreate(txCtx, recordTmpl)` - Called after the insert DBO is create and after the transaction is started but before the DBO is executed.
 
 * `afterCreate(txCtx, record)` - Called after the DBO is executed but before the transaction is committed. The `record` argument is the new record. The function must return a record object (or a promise of it) that will be used for the response. In the simplest case it simply returns the `record` argument passed into it.
 
@@ -684,6 +690,7 @@ The hooks are:
 
 These hooks are supported by the individual record resource handler implementation. In addition to the common methods and properties, the transaction context includes:
 
+* `patchSpec` - The patch specification document from the call. This document is used to build the `patch` object (see next property).
 * `patch` - The parsed `RecordPatch` object (see [x2node-patches](https://www.npmjs.com/package/x2node-patches) module) submitted with the request.
 * `selectionFilter` - Filter specification used to select the record to update.
 * `queryParams` - Parameters for the record selection filter.
@@ -691,7 +698,9 @@ These hooks are supported by the individual record resource handler implementati
 
 The hooks are:
 
-* `prepareUpdate(txCtx)` - Called before the transaction is started and before the update DBO is created. The transaction context will have the `patch` and the `selectionFilter` and `queryParams` objects built according to the handler's default logic. The hook can modify these properties on the transaction context to influence the resulting update DBO.
+* `prepareUpdateSpec(txCtx, patchSpec)` - Called before the transaction is started, the update DBO is created and before the patch is constructed, which gives the hook a chance to make changes to the patch specification document or build its own `RecordPatch` alltogether and set it to the `patch` property on the context.
+
+* `prepareUpdate(txCtx)` - Called before the transaction is started and before the update DBO is created but after the patch has been constructed. The transaction context will have the `patch` and the `selectionFilter` and `queryParams` objects built according to the handler's default logic. The hook can modify these properties on the transaction context to influence the resulting update DBO.
 
 * `beforeUpdate(txCtx, record)` - Called after transaction is started and the record to be updated is loaded from the database, but before the patch is applied. The `record` argument is the record loaded from the database with all properties fetched by default.
 

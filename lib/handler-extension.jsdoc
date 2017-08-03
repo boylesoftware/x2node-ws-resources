@@ -97,7 +97,16 @@
  */
 
 /**
- * After the record is validated.
+ * Before the record template is validated.
+ *
+ * @function module:x2node-ws-resources.HandlerExtension#prepareCreateSpec
+ * @param {module:x2node-ws-resources.CreateTransactionContext} txCtx
+ * @param {Object} recordTmpl
+ * @returns {(*|Promise)} Nothing, or a promise, which can be rejected to abort
+ * the action and return the rejection object as the handler response.
+ */
+/**
+ * After the record template is validated.
  *
  * @function module:x2node-ws-resources.HandlerExtension#prepareCreate
  * @param {module:x2node-ws-resources.CreateTransactionContext} txCtx
@@ -134,12 +143,22 @@
  * Context object for a record update operation.
  *
  * @typedef {module:x2node-ws-resources~TransactionContext} module:x2node-ws-resources.UpdateTransactionContext
+ * @property {Object} patchSpec
  * @property {module:x2node-patches~RecordPatch} patch
  * @property {Object} selectionFilter
  * @property {Object.<string,*>} queryParams
  * @property {module:x2node-dbos~UpdateDBO~Result} updateResult
  */
 
+/**
+ *
+ *
+ * @function module:x2node-ws-resources.HandlerExtension#prepareUpdateSpec
+ * @param {module:x2node-ws-resources.UpdateTransactionContext} txCtx
+ * @param {Object} patchSpec
+ * @returns {(*|Promise)} Nothing, or a promise, which can be rejected to abort
+ * the action and return the rejection object as the handler response.
+ */
 /**
  *
  *
