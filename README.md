@@ -584,7 +584,7 @@ The above removes the `DELETE()` method and replaces it with a Boolean `false` p
 
 The default implementations of the handler methods follow a certain pattern when processing a call. In general, the structure is:
 
-1. Process the call, do the inital call validations, prepare everything for the transaction, build the DBO.
+1. Process the call, do the inital call validations, prepare everything for the transaction, build the DBO (some methods build the DBO after the transaction is started).
 
 2. Initiate database transaction and execute the DBO.
 
@@ -592,9 +592,9 @@ The default implementations of the handler methods follow a certain pattern when
 
 Within that structure, the method implementations check if the extention has corresponding hook functions and call them if so. In general, the hooks can be plugged in at the following points:
 
-* Before the transaction is started, before the main DBO is created. Allows additional call validation and give the extension a chance to influence the DBO construction. The names of these hooks start with `prepare`.
+* Before the transaction is started, before the main DBO is created. Allows additional call validation and give the extension a chance to influence the DBO construction. The names of these hooks start with `prepare`. Some methods may have more than one `prepare` hook.
 
-* Just after the transaction is started but before the main DBO is executed. Gives the extension a chance to make call validations that require access to the database as well as place necessary transactional locks. The names of these hooks start with `before`.
+* Just after the transaction is started but before the main DBO is executed. Gives the extension a chance to make call validations that require access to the database as well as place necessary transactional locks. The names of these hooks start with `before`. For some methods, the `before` hook is called before the main DBO is even constructed giving the handler another chance to influence the operation.
 
 * Just after the main DBO is executed, but before the transaction is committed. Gives the extension a chance to perform additional operations that are part of a successful transaction. The names of these hooks start with `after`.
 
@@ -606,7 +606,7 @@ Every hook function can return a `Promise`. If the promise is fulfilled, the ope
 
 All transaction hook functions receive an object that represents the _transaction context_. This object provides the API that the framework exposes to the handler extensions. It also can be used by the hook functions to communicate between each other by setting implementation-specific properties on the transaction context object.
 
-Each handler method receives its own specific variation of the transaction context object, but all of the transaction context objects expose the following methods and properties:
+Each handler method receives its own specific variation of the transaction context object, but all of the transaction context objects expose the following common methods and properties:
 
 * `call` - This is the `ServiceCall` object supplied by the [x2node-ws](https://www.npmjs.com/package/x2node-ws) module.
 
@@ -643,9 +643,9 @@ These hooks are supported by the records collection resource handler implementat
 
 The hooks are:
 
-* `prepareSearch(txCtx)` - Called before the transaction is started and before the fetch DBO used for the search is created. By the time the hook is called, the `querySpec` and `queryParams` properties on the transaction context are constructed using the default handler logic. The hook can modify these objects and thus influence the resulting fetch DBO.
+* `prepareSearch(txCtx)` - Called before the transaction is started and before the fetch DBO used for the search is constructed. By the time the hook is called, the `querySpec` and `queryParams` properties on the transaction context are constructed using the default handler logic. The hook can modify these objects and thus influence the resulting fetch DBO.
 
-* `beforeSearch(txCtx)` - Called after transaction is started but before the DBO is executed.
+* `beforeSearch(txCtx)` - Called after transaction is started but before the DBO is executed. The DBO is already constrcuted by this point and cannot be changed.
 
 * `afterSearch(txCtx, result)` - Called after the DBO is executed but before the transaction is committed. The `result` argument is the fetch DBO result object. The function must return a result object (or a promise of it) that will be used for the response. In the simplest case it simply returns the `result` argument passed into it.
 
@@ -662,7 +662,7 @@ The hooks are:
 
 * `prepareRead(txCtx)` - Called before the transaction is started and before the fetch DBO used to read the record is created. By the time the hook is called, the `querySpec` and `queryParams` properties on the transaction context are constructed using the default handler logic. The hook can modify these objects and thus influence the resulting fetch DBO.
 
-* `beforeRead(txCtx)` - Called after transaction is started but before the DBO is executed.
+* `beforeRead(txCtx)` - Called after transaction is started but before the DBO is executed. The DBO is already constructed by this point and cannot be changed.
 
 * `afterRead(txCtx, record)` - Called after the DBO is executed but before the transaction is committed. The `record` argument is the fetched record (this hook is not called if the record was not found because the handler generates an error). The function must return a record object (or a promise of it) that will be used for the response. In the simplest case it simply returns the `record` argument passed into it.
 
@@ -678,9 +678,9 @@ The hooks are:
 
 * `prepareCreateSpec(txCtx, recordTmpl)` - Called before the transaction is started, before the insert DBO is created and before the record template is validated, which gives the hook a chance to make changes to the record template. The `recordTmpl` argument is the same as the `recordTmpl` object on the transaction context provided as an argument for convenience.
 
-* `prepareCreate(txCtx, recordTmpl)` - Like `prepareCreateSpec`, but called after the record template is validated.
+* `prepareCreate(txCtx, recordTmpl)` - Like `prepareCreateSpec`, but called _after_ the record template is validated.
 
-* `beforeCreate(txCtx, recordTmpl)` - Called after the insert DBO is create and after the transaction is started but before the DBO is executed.
+* `beforeCreate(txCtx, recordTmpl)` - Called after the transaction is started, but before the insert DBO is created and executed. Ath this point the hook can still make changes to the record template that will influence the insert DBO.
 
 * `afterCreate(txCtx, record)` - Called after the DBO is executed but before the transaction is committed. The `record` argument is the new record. The function must return a record object (or a promise of it) that will be used for the response. In the simplest case it simply returns the `record` argument passed into it.
 
