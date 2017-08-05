@@ -704,7 +704,7 @@ The hooks are:
 
 * `beforeUpdate(txCtx, record)` - Called after transaction is started and the record to be updated is loaded from the database, but before the patch is applied. The `record` argument is the record loaded from the database with all properties fetched by default.
 
-* `beforeUpdateSave(txCtx, record)` - Called after the record is loaded from the database, patched and validated, but before it is saved back into the database. The `record` argument is the patched record ready to be saved.
+* `beforeUpdateSave(txCtx, record)` - Called after the record is loaded from the database, patched and validated, but before it is saved back into the database. The `record` argument is the patched record ready to be saved. Note, that changes to the `record` made by this hook do not affect the data saved into the database. This behaviour is planned to be changed in the future.
 
 * `afterUpdate(txCtx, record)` - Called after the DBO is executed but before the transaction is committed. The `record` argument is the updated record. The function must return a record object (or a promise of it) that will be used for the response. In the simplest case it simply returns the `record` argument passed into it. The `updateResult` object is available on the transaction context.
 
