@@ -360,7 +360,7 @@ The following tests are supported:
 * `:min` - _Minimum value_. Test if the value is greater or equal to the parameter value.
 * `:max` - _Maximum value_. Test if the value is less or equal to the parameter value.
 * `:pat` - _Pattern_. Test if the value matches the regular expression provided as the parameter value. The test is case-insensitive.
-* `:sub` - _Substring_. Test if the value contains the substring provided as the parameter value. The test is case-insensitive.
+* `:mid` - _Substring_. Test if the value contains the substring provided as the parameter value. The test is case-insensitive.
 * `:pre` - _Prefix_. Test if the value starts with the string provided as the parameter value. The test is case-insensitive.
 * `:alt` - _Alternatives_. Test if the value is one of the pipe-separated values provided as the parameter value.
 * Nothing - _Equality_ or _Presence_. If no test is specified, test if the value is equal to the value provided as the parameter value. If the parameter does not have a value, test if the value is not empty.
