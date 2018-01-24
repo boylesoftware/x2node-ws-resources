@@ -626,7 +626,9 @@ Each handler method receives its own specific variation of the transaction conte
 
 * `insert(recordTypeName, records, [passThrough])` - A shortcut method for building and executing insert DBOs. As opposed to the basic DBO factory methods, allows creating and executing multiple insert DBOs, so the `records` argument can be either a single record template or an array of record templates. Also supports an optional `passThrough` argument. If provided, the promise returned by the method, if the operation is successful, is fulfilled with it instead of the DBO result object. If not provided, the promise is fulfilled with the new record id, if the `records` argument is a single object, or an array of new record ids if the `records` argument is an array.
 
-* `update(recordTypeName, patchSpec, filterSpec, [passThrough])` - A shortcut method for building and executing an update DBO. As with the `insert()` method, an optional `passThrough` argument is supported.
+* `update(recordTypeName, patchSpec, filterSpec, [passThrough])` - A shortcut method for building and executing an update DBO. As with the `insert()` method, an optional `passThrough` argument is supported. The method also performs the patched record validation/normalization using the "onUpdate" validation set. If the patched record does not pass validation, the returned promise is rejected with a `ValidationErrors` object.
+
+* `updateAndValidate(recordTypeName, patchSpec, filterSpec, [passThrough])` - Same as `update()` but also performs the patched record validation/normalization using the "onUpdate" validation set. If the patched record does not pass validation, the returned promise is rejected with a `ValidationErrors` object.
 
 * `delete(recordTypeName, filterSpec)` - A shortcut for building and executing a delete DBO.
 
