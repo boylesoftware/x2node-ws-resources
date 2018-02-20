@@ -94,6 +94,9 @@
  *
  * @typedef {module:x2node-ws-resources~TransactionContext} module:x2node-ws-resources.CreateTransactionContext
  * @property {Object} recordTmpl
+ * @property {Object} [parentQuerySpec]
+ * @property {Object} [parentQueryParams]
+ * @property {Object} [parentRecord]
  */
 
 /**

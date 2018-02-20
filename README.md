@@ -677,14 +677,17 @@ The hooks are:
 These hooks are supported by the records collection resource handler implementation. In addition to the common methods and properties, the transaction context includes:
 
 * `recordTmpl` - The record template submitted with the call.
+* `parentQuerySpec` - If dependent record (the endpoint URI includes parent record id), this is the query specification for a fetch DBO used by the handler to fetch the parent record and that way verify that the parent record exists. The default query specification only fetches the parent record id property and also locks the parent record (and all of its parents) in shared mode.
+* `parentQueryParams` - Parameters for the `parentQuerySpec`.
+* `parentRecord` - Parent record fetched by the DBO constructed using `parentQuerySpec`.
 
 The hooks are:
 
 * `prepareCreateSpec(txCtx, recordTmpl)` - Called before the transaction is started, before the insert DBO is created and before the record template is validated, which gives the hook a chance to make changes to the record template. The `recordTmpl` argument is the same as the `recordTmpl` object on the transaction context provided as an argument for convenience.
 
-* `prepareCreate(txCtx, recordTmpl)` - Like `prepareCreateSpec`, but called _after_ the record template is validated.
+* `prepareCreate(txCtx, recordTmpl)` - Like `prepareCreateSpec`, but called _after_ the record template is validated. Also, if dependent record endpoint, the default `parentQuerySpec` and `parentQueryParams` are made available on the transaction context. The hook can still modify them to influence the DBO used to fetch the parent record.
 
-* `beforeCreate(txCtx, recordTmpl)` - Called after the transaction is started, but before the insert DBO is created and executed. Ath this point the hook can still make changes to the record template that will influence the insert DBO.
+* `beforeCreate(txCtx, recordTmpl)` - Called after the transaction is started, but before the insert DBO is created and executed. At this point the hook can still make changes to the record template that will influence the insert DBO. Also, if dependent record endpoint, by this point the `parentRecord` is made available on the transaction context.
 
 * `afterCreate(txCtx, record)` - Called after the DBO is executed but before the transaction is committed. The `record` argument is the new record. The function must return a record object (or a promise of it) that will be used for the response. In the simplest case it simply returns the `record` argument passed into it.
 
