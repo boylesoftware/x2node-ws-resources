@@ -37,6 +37,8 @@ See module's [API Reference Documentation](https://boylesoftware.github.io/x2nod
     * [Record Creation Hooks](#record-creation-hooks)
     * [Record Update Hooks](#record-update-hooks)
     * [Record Delete Hooks](#record-delete-hooks)
+* [Miscellaneous](#miscellaneous)
+  * [Auto-Assigned Properties](#auto-assigned-properties)
 
 ## Usage
 
@@ -734,3 +736,52 @@ The hooks are:
 * `afterDelete(txCtx)` - Called after the DBO is executed but before the transaction is committed. The `deleteResult` object is available on the transaction context.
 
 * `completeDelete(err, txCtx)` - Called after the transaction is finished but before the response is built. If there was an error and the transaction was rolled back, the `err` argument is provided. If the transaction was successful, the `err` is `undefined`. The function may return a `ServiceResponse` object, in which case it is used instead of the handler's default response building logic. If it returns a promise that gets rejected, a corresponding error response is returned.
+
+## Miscellaneous
+
+The module provides some miscellaneous helpers described below.
+
+### Auto-Assigned Properties
+
+Backend applications often automatically assign some record properties by either generating the values or by retrieving the values from third-party systems. For these properties, when a new record is created via a `POST` the value in the template must/can be empty. Once the record is created, the property is often unmodifiable. The module provides an object that can be used as the property validators definition. For example:
+
+```javascript
+const recordTypes = records.with(dbos).buildLibrary({
+    recordTypes: {
+        'Account': {
+            table: 'accounts',
+            properties: {
+                'id': {
+                    valueType: 'number',
+                    role: 'id'
+                },
+                'token': {
+                    valueType: 'string',
+                    modifiable: false,
+                    validators: resources.AUTOASSIGNED
+                },
+                ...
+            }
+        },
+        ...
+    }
+});
+```
+
+The above is equivalent to:
+
+```javascript
+...
+'token': {
+    valueType: 'string',
+    modifiable: false,
+    validators: {
+        'onCreate': [ 'empty' ],
+        'onUpdate': [ 'required' ],
+        '*': [ '-required' ]
+    }
+},
+...
+```
+
+The property `token` is required, but remove the `required` validator from the default validation set to allow `empty` validator for the `onCreate` set. We add the `required` back spefifically for the `onUpdate` validation set. The latter is technically unnecessary in our specific case, because the property is not modifiable anyway. However, having it allows us to control whether the property is modifiable or not using only the `modifiable` definition attribute.

@@ -29,3 +29,14 @@ exports.createResourceHandlersFactory = function(
 
 	return new ResourceHandlersFactory(ds, dboFactory, defaultOptions);
 };
+
+/**
+ * Validators to use on auto-assigned properties in the record types library
+ * definition. When a new record is created, requires the property to be empty.
+ * When the record is being updated, requires the property to have value.
+ */
+exports.AUTOASSIGNED = {
+	'onCreate': [ 'empty' ],
+	'onUpdate': [ 'required' ],
+	'*': [ '-required' ]
+};
