@@ -562,6 +562,8 @@ These include two hooks:
 
 * `isAllowed(call)` - Responds if the call is allowed to proceed from the authorization point of view. See [x2node-ws](https://www.npmjs.com/package/x2node-ws) module documentation for details.
 
+* `isAllowedAction(action, actor, call)` - If the handler extension does not define `isAcllowed()` method, then it can define this `isAllowedAction()` method, which is the same as `isAllowed()`, but it receives an `action` argument, which allows the method to analyze the call from the resource action point of view rather than the HTTP method. The `action` argument can be "search", "create" (for collection resource handlers), "read", "update" or "delete" (for individual resource handlers). The method also receives `actor` extracted from the `call`, just for the implementation's convenience.
+
 In general, the functions and properties defined on the extension are simply copied to the handler instance when it is created by the factory. The extension, therefore, can also completely redefine handler methods by providing its own implementations of `GET()`, `POST()`, etc.
 
 One particular use-case for the `configure()` function is disabling certain methods on the handler. For example, if the _Account_ records may not be ever deleted via the web-service's API, one would want to disable the HTTP `DELETE` method on the individual record handler:
