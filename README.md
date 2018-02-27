@@ -634,7 +634,7 @@ Each handler method receives its own specific variation of the transaction conte
 
 * `dynamicUpdate(recordTypeName, patchSpecProvider, filterSpec, [orderSpec], [passThrough])` - A shortcut method for building and executing a fetch DBO followed by a dynamically constructed series of update DBOs for each fetch record. The `filterSpec` and `orderSpec` arguments are used to fetch and lock records for update. The `patchSpecProvider` argument is a function that takes a single matched record as its only argument and returns a patch specification in JSON Patch format (that is an array of patch operation objects). The records are processed in the order they were fetched by the initial fetch DBO.
 
-* `delete(recordTypeName, filterSpec)` - A shortcut for building and executing a delete DBO.
+* `delete(recordTypeName, filterSpec, [passThrough])` - A shortcut for building and executing a delete DBO.
 
 * `rejectIfExists(recordTypeName, filterSpec, httpStatusCode, errorMessage)` - A shortcut for checking if records of a given type matching the specified filter exist and if so, rejecting the returned promise with an error `ServiceResponse`. If matching records do not exist, the returned promise is fulfilled (with nothing).
 
