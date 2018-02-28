@@ -210,6 +210,9 @@
  * @typedef {module:x2node-ws-resources~TransactionContext} module:x2node-ws-resources.DeleteTransactionContext
  * @property {Object} selectionFilter
  * @property {Object.<string,*>} queryParams
+ * @property {Array.<string>} [fetchProps]
+ * @property {Object} [record]
+ * @property {Object} [referredRecords]
  * @property {module:x2node-dbos~DeleteDBO~Result} deleteResult
  */
 
@@ -226,6 +229,7 @@
  *
  * @function module:x2node-ws-resources.HandlerExtension#beforeDelete
  * @param {module:x2node-ws-resources.DeleteTransactionContext} txCtx
+ * @param {Object} [record]
  * @returns {Promise}
  */
 /**
@@ -233,6 +237,7 @@
  *
  * @function module:x2node-ws-resources.HandlerExtension#afterDelete
  * @param {module:x2node-ws-resources.DeleteTransactionContext} txCtx
+ * @param {Object} [record]
  * @returns {Promise}
  */
 /**
@@ -241,5 +246,6 @@
  * @function module:x2node-ws-resources.HandlerExtension#completeDelete
  * @param {(external:Error|module:x2node-ws~ServiceResponse)} [err]
  * @param {module:x2node-ws-resources.DeleteTransactionContext} txCtx
+ * @param {Object} [record]
  * @returns {Promise}
  */

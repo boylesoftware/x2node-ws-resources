@@ -727,17 +727,20 @@ These hooks are supported by the individual record resource handler implementati
 
 * `selectionFilter` - Filter specification used to select the record to delete.
 * `queryParams` - Parameters for the record selection filter.
+* `fetchProps` - Optional array of record properties to fetch before deleting the record.
+* `record` - Fetched record.
+* `referredRecords` - Fetched referred records.
 * `deleteResult` - Delete DBO result object.
 
 The hooks are:
 
-* `prepareDelete(txCtx)` - Called before the transaction is started and before the delete DBO is created. The transaction context will have the `selectionFilter` and `queryParams` objects built according to the handler's default logic. The hook can modify these properties on the transaction context to influence the resulting delete DBO.
+* `prepareDelete(txCtx)` - Called before the transaction is started and before the delete DBO is created. The transaction context will have the `selectionFilter` and `queryParams` objects built according to the handler's default logic. The hook can modify these properties on the transaction context to influence the resulting delete DBO. In addition to that, the hook can set `fetchProps` on the transaction context. If it does so, the record will be fetched and locked in exclusive mode before it is deleted and made available to the rest of the handler logic. The properties fetched are determined by the patterns provided in the `fetchProps` array. The fetched record is passed to the hooks as an argument and also made available on the context as `record`. If any referred records are requested to be fetched as well, they are made available on the context as `referredRecords`.
 
-* `beforeDelete(txCtx)` - Called after transaction is started but before the DBO is executed.
+* `beforeDelete(txCtx, [record])` - Called after transaction is started but before the DBO is executed.
 
-* `afterDelete(txCtx)` - Called after the DBO is executed but before the transaction is committed. The `deleteResult` object is available on the transaction context.
+* `afterDelete(txCtx, [record])` - Called after the DBO is executed but before the transaction is committed. The `deleteResult` object is available on the transaction context.
 
-* `completeDelete(err, txCtx)` - Called after the transaction is finished but before the response is built. If there was an error and the transaction was rolled back, the `err` argument is provided. If the transaction was successful, the `err` is `undefined`. The function may return a `ServiceResponse` object, in which case it is used instead of the handler's default response building logic. If it returns a promise that gets rejected, a corresponding error response is returned.
+* `completeDelete(err, txCtx, [record])` - Called after the transaction is finished but before the response is built. If there was an error and the transaction was rolled back, the `err` argument is provided. If the transaction was successful, the `err` is `undefined`. The function may return a `ServiceResponse` object, in which case it is used instead of the handler's default response building logic. If it returns a promise that gets rejected, a corresponding error response is returned.
 
 ## Miscellaneous
 
