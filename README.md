@@ -786,4 +786,31 @@ The above is equivalent to:
 ...
 ```
 
-The property `token` is required, but remove the `required` validator from the default validation set to allow `empty` validator for the `onCreate` set. We add the `required` back spefifically for the `onUpdate` validation set. The latter is technically unnecessary in our specific case, because the property is not modifiable anyway. However, having it allows us to control whether the property is modifiable or not using only the `modifiable` definition attribute.
+The property `token` is required, but we remove the `required` validator from the default validation set to allow `empty` validator for the `onCreate` set. We add the `required` back spefifically for the `onUpdate` validation set. The latter is technically unnecessary in our specific case, because the property is not modifiable anyway. However, having it allows us to control whether the property is modifiable or not using only the `modifiable` definition attribute.
+
+Another predefined validators object is `resources.OPTIONALLY_AUTOASSIGNED`, which is the same as `resources.AUTOASSIGNED`, but allows a value to be provided when a new record is created. In the example above, if we want to allow the client to generate the `token` itself instead of having the backend application generate it, we could say:
+
+```javascript
+...
+'token': {
+    valueType: 'string',
+    modifiable: false,
+    validators: resources.OPTIONALLY_AUTOASSIGNED
+},
+...
+```
+
+which is equivalent to:
+
+```javascript
+...
+'token': {
+    valueType: 'string',
+    modifiable: false,
+    validators: {
+        'onUpdate': [ 'required' ],
+        '*': [ '-required' ]
+    }
+},
+...
+```

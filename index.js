@@ -31,12 +31,23 @@ exports.createResourceHandlersFactory = function(
 };
 
 /**
- * Validators to use on auto-assigned properties in the record types library
- * definition. When a new record is created, requires the property to be empty.
- * When the record is being updated, requires the property to have value.
+ * Validators to use on auto-assigned required properties in the record types
+ * library definition. When a new record is created, requires the property to be
+ * empty. When the record is being updated, requires the property to have value.
  */
 exports.AUTOASSIGNED = {
 	'onCreate': [ 'empty' ],
+	'onUpdate': [ 'required' ],
+	'*': [ '-required' ]
+};
+
+/**
+ * Validators to use on optionally auto-assigned required properties in the
+ * record types library definition. When a new record is created, the property is
+ * allowed to be empty or not. When the record is being updated, requires the
+ * property to have value.
+ */
+exports.OPTIONALLY_AUTOASSIGNED = {
 	'onUpdate': [ 'required' ],
 	'*': [ '-required' ]
 };
