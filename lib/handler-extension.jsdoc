@@ -54,6 +54,7 @@
  * @typedef {module:x2node-ws-resources~TransactionContext} module:x2node-ws-resources.ReadTransactionContext
  * @property {Object} querySpec
  * @property {Object.<string,*>} queryParams
+ * @property {Object} [referredRecords]
  */
 
 /**

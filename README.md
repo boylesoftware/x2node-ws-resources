@@ -624,7 +624,7 @@ Each handler method receives its own specific variation of the transaction conte
 
 * `makeComplete()` - If called by a hook function, the rest of the handler method processing logic is cancelled, the transaction, if any, is committed, and the handler returns whatever the hook function returns.
 
-* `refToId(recordTypeName, ref)` - Converts record reference (e.g. "Account#17") to record id (e.g. `17`). The first argument is the expected record type name and the second argument is the reference. If the reference is invalid or if it does not match the expected record type, an `X2SyntaxError` is thrown (see [x2node-common](https://www.npmjs.com/package/x2node-common) module).
+* `refToId(recordTypeName, ref)` - Converts record reference (e.g. "Account#17") to record id (e.g. `17`). The first argument is the expected record type name and the second argument is the reference. If the reference is invalid or if it does not match the expected record type, an `X2SyntaxError` is thrown (see [x2node-common](https://www.npmjs.com/package/x2node-common) module). If the reference is `null` or `undefined`, it is returned without converting it to the id.
 
 * `fetch(recordTypeName, querySpec)` - A shortcut method for building and executing a fetch DBO.
 
@@ -665,6 +665,7 @@ These hooks are supported by the individual record resource handler implementati
 
 * `querySpec` - The query specification object for the fetch DBO.
 * `queryParams` - Object with filter parameters for the fetch DBO.
+* `referredRecords` - If any referred records were fetched as a result of executing the fetch DBO (usually that happens if the handler adds referred records to the `querySpec` in the `prepareRead` hook), then they are stored in this context property.
 
 The hooks are:
 
