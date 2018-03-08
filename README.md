@@ -620,8 +620,6 @@ Each handler method receives its own specific variation of the transaction conte
 
 * `recordTypes` - The record types library.
 
-* `on(eventName, listener)` - Adds a listener to the specified transaction event. The `eventName` can be "commit" or "rollback". The "commit" listeners are called right after successful transaction commit. The "rollback" listeners are called right after transaction rollback, successful or failed. The listeners are functions that are called without any arguments. The return values are ignored. If a listener throws an error, the error is logged but otherwise the process is unaffected (the remaining of the listeners are still called and the normal framework flow continues). As opposed to the `complete` hooks, the event listeners are called regardless of the `makeComplete()` status (see next method).
-
 * `makeComplete()` - If called by a hook function, the rest of the handler method processing logic is cancelled, the transaction, if any, is committed, and the handler returns whatever the hook function returns.
 
 * `refToId(recordTypeName, ref)` - Converts record reference (e.g. "Account#17") to record id (e.g. `17`). The first argument is the expected record type name and the second argument is the reference. If the reference is invalid or if it does not match the expected record type, an `X2SyntaxError` is thrown (see [x2node-common](https://www.npmjs.com/package/x2node-common) module). If the reference is `null` or `undefined`, it is returned without converting it to the id.
