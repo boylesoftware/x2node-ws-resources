@@ -31,7 +31,7 @@
     "x2node-dbos": "^1.4.0",
     "x2node-patches": "^1.2.3",
     "x2node-validators": "^1.4.0",
-    "x2node-ws": "^1.4.0"
+    "x2node-ws": "^1.4.1"
   },
   "devDependencies": {
     "eslint": "^4.18.2"
