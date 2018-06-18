@@ -620,6 +620,8 @@ Each handler method receives its own specific variation of the transaction conte
 
 * `recordTypes` - The record types library.
 
+* `log(message)` - Calls the debug logger associated with the resource handler, but adds information to the message that links it to the current context (including the call id and, if active, the transaction id). Same way as the underlying debug logger function, the method provides a read-only Boolean `enabled` property that tells if the debug logger is enabled or if it is a noop.
+
 * `makeComplete()` - If called by a hook function, the rest of the handler method processing logic is cancelled, the transaction, if any, is committed, and the handler returns whatever the hook function returns.
 
 * `refToId(recordTypeName, ref)` - Converts record reference (e.g. "Account#17") to record id (e.g. `17`). The first argument is the expected record type name and the second argument is the reference. If the reference is invalid or if it does not match the expected record type, an `X2SyntaxError` is thrown (see [x2node-common](https://www.npmjs.com/package/x2node-common) module). If the reference is `null` or `undefined`, it is returned without converting it to the id.
