@@ -702,15 +702,15 @@ These hooks are supported by the individual record resource handler implementati
 
 * `patchSpec` - The patch specification document from the call. This document is used to build the `patch` object (see next property).
 * `patch` - The parsed `RecordPatch` object (see [x2node-patches](https://www.npmjs.com/package/x2node-patches) module) submitted with the request.
-* `selectionFilter` - Filter specification used to select the record to update.
-* `queryParams` - Parameters for the record selection filter.
+* `prefetchQuerySpec` - Specification for the fetch DBO used to load the record to be updated. The default specification loads the record with all properties fetched by default, includes filters to check the existence of the parent records and locks the record exclusively.
+* `prefetchQueryParams` - Parameters for the record pre-fetch DBO.
 * `updateResult` - Update DBO result object.
 
 The hooks are:
 
-* `prepareUpdateSpec(txCtx, patchSpec)` - Called before the transaction is started, the update DBO is created and before the patch is constructed, which gives the hook a chance to make changes to the patch specification document or build its own `RecordPatch` alltogether and set it to the `patch` property on the context.
+* `prepareUpdateSpec(txCtx, patchSpec)` - Called before the transaction is started, the update DBO is created and before the patch is constructed, which gives the hook a chance to make changes to the patch specification document or build its own `RecordPatch` altogether and set it to the `patch` property on the context.
 
-* `prepareUpdate(txCtx)` - Called before the transaction is started and before the update DBO is created but after the patch has been constructed. The transaction context will have the `patch` and the `selectionFilter` and `queryParams` objects built according to the handler's default logic. The hook can modify these properties on the transaction context to influence the resulting DBOs.
+* `prepareUpdate(txCtx)` - Called before the transaction is started and before the update DBO is created but after the patch has been constructed. The transaction context will have the `patch` and the `prefetchQuerySpec` and `prefetchQueryParams` objects built according to the handler's default logic. The hook can modify these properties on the transaction context to influence the resulting DBOs.
 
 * `beforeUpdate(txCtx, record)` - Called after transaction is started and the record to be updated is loaded from the database, but before the patch is applied. The `record` argument is the record loaded from the database with all the properties fetched by default. This is the record, to which the requested patch is applied.
 

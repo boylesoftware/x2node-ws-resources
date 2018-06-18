@@ -149,8 +149,8 @@
  * @typedef {module:x2node-ws-resources~TransactionContext} module:x2node-ws-resources.UpdateTransactionContext
  * @property {Object} patchSpec
  * @property {module:x2node-patches~RecordPatch} patch
- * @property {Object} selectionFilter
- * @property {Object.<string,*>} queryParams
+ * @property {Object} prefetchQuerySpec
+ * @property {Object.<string,*>} prefetchQueryParams
  * @property {module:x2node-dbos~UpdateDBO~Result} updateResult
  */
 
