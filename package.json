@@ -28,9 +28,9 @@
   },
   "dependencies": {
     "x2node-common": "^1.5.0",
-    "x2node-dbos": "^1.4.3",
+    "x2node-dbos": "^1.4.4",
     "x2node-patches": "^1.2.5",
-    "x2node-validators": "^1.4.2",
+    "x2node-validators": "^1.5.0",
     "x2node-ws": "^1.5.3"
   },
   "devDependencies": {
