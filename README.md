@@ -682,6 +682,7 @@ These hooks are supported by the records collection resource handler implementat
 * `recordTmpl` - The record template submitted with the call.
 * `parentQuerySpec` - If dependent record (the endpoint URI includes parent record id), this is the query specification for a fetch DBO used by the handler to fetch the parent record and that way verify that the parent record exists. The default query specification only fetches the parent record id property and also locks the parent record (and all of its parents) in shared mode.
 * `parentQueryParams` - Parameters for the `parentQuerySpec`.
+* `lockCollections` - Array of record type names to lock exclusively before proceeding. By default, only the main record type is included. The `prepareCreate` hook may add more names into this array to lock the collections if modification of those collections is a side effect of the call.
 * `parentRecord` - Parent record fetched by the DBO constructed using `parentQuerySpec`.
 
 The hooks are:
@@ -704,6 +705,7 @@ These hooks are supported by the individual record resource handler implementati
 * `patch` - The parsed `RecordPatch` object (see [x2node-patches](https://www.npmjs.com/package/x2node-patches) module) submitted with the request.
 * `prefetchQuerySpec` - Specification for the fetch DBO used to load the record to be updated. The default specification loads the record with all properties fetched by default, includes filters to check the existence of the parent records and locks the record exclusively.
 * `prefetchQueryParams` - Parameters for the record pre-fetch DBO.
+* `lockCollections` - Array of record type names to lock exclusively before proceeding. By default, only the main record type is included. The `prepareUpdate` hook may add more names into this array to lock the collections if modification of those collections is a side effect of the call.
 * `updateResult` - Update DBO result object.
 
 The hooks are:
@@ -727,6 +729,7 @@ These hooks are supported by the individual record resource handler implementati
 * `selectionFilter` - Filter specification used to select the record to delete.
 * `queryParams` - Parameters for the record selection filter.
 * `fetchProps` - Optional array of record properties to fetch before deleting the record.
+* `lockCollections` - Array of record type names to lock exclusively before proceeding. By default, only the main record type is included. The `prepareDelete` hook may add more names into this array to lock the collections if modification of those collections is a side effect of the call.
 * `record` - Fetched record.
 * `referredRecords` - Fetched referred records.
 * `deleteResult` - Delete DBO result object.
