@@ -390,9 +390,25 @@ The `<group_id>` is the identifier used instead of the leading `f` in the tests 
 
 * `f$dob!&f$city=Brooklyn&f$:or=g&g$status=ACTIVE&g$status:pre=NEW_` - Select records that do not have `dob` property value, have `city` property value equal "Brooklyn" and `status` property either equal "ACTIVE" or start with "NEW_".
 
-If the property in the test is a collection (an array property), only empty/not empty test can be used. The parameter can have a value, like in a logical junction operator, that identifies the group of tests to apply to the collection elements. For example:
+If the property in the test is a collection (an array property), two different tests can be used. The simplest test is the empty/not empty test. The parameter can have a value, like in a logical junction operator, that identifies the group of tests to apply to the collection elements. For example:
 
 * `f$appointmentAvailabilities=g&g$weekday:alt=MON|TUE` - Select all records that have elements in the `appointmentAvailabilities` nested objects array property that have their `weekday` property either "MON" or "TUE".
+
+The second type of collection test is a count test, which verifies that the collection has the provided exact number of elements (or not, if negated). For example:
+
+* `f$tags:count=2` - Select all records that have exactly two elements in the `tags` collection property.
+
+As with the empty/not empty test, the collection filter conditions can be added. For example:
+
+* `f$tags:count=2:g&g$name:alt=New|Sale` - Select all records that have both tags "New" and "Sale".
+
+This is a particularly useful expression and it allows logical "and" testing for collections. Without it, the above exression could be written as:
+
+* `f$tags=g&g$name=New&f$tags=h&h$name=Sale` - Fine, but longer (especially if there are more than 2 values to combine) and may translate to a less efficient database query in the backend.
+
+Finally, note the difference from:
+
+* `f$tags=g&g$name:alt=New|Sale` - Select all records that have _either_ "New" _or_ "Sale" tags.
 
 #### Included Record Properties
 
