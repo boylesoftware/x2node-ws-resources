@@ -9,6 +9,7 @@
 'use strict';
 
 const ResourceHandlersFactory = require('./lib/resource-handlers-factory.js');
+const searchQueryParser = require('./lib/search-query-parser.js');
 
 
 // export the base handler classes
@@ -29,6 +30,9 @@ exports.createResourceHandlersFactory = function(
 
 	return new ResourceHandlersFactory(ds, dboFactory, defaultOptions);
 };
+
+// export search query parser
+exports.parseSearchQuery = searchQueryParser.parseSearchQuery;
 
 /**
  * Validators to use on auto-assigned required properties in the record types
