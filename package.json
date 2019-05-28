@@ -1,6 +1,6 @@
 {
   "name": "x2node-ws-resources",
-  "version": "1.12.11",
+  "version": "1.12.12",
   "description": "Persistent resources for web services module.",
   "keywords": [
     "webservice",
