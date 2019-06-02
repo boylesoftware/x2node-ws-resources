@@ -578,7 +578,7 @@ These include two hooks:
 
 * `isAllowed(call)` - Responds if the call is allowed to proceed from the authorization point of view. See [x2node-ws](https://www.npmjs.com/package/x2node-ws) module documentation for details.
 
-* `isAllowedAction(action, actor, call)` - If the handler extension does not define `isAcllowed()` method, then it can define this `isAllowedAction()` method, which is the same as `isAllowed()`, but it receives an `action` argument, which allows the method to analyze the call from the resource action point of view rather than the HTTP method. The `action` argument can be "search", "create" (for collection resource handlers), "read", "update" or "delete" (for individual resource handlers). The method also receives `actor` extracted from the `call`, just for the implementation's convenience.
+* `isAllowedAction(action, actor, call)` - If the handler extension does not define `isAllowed()` method, then it can define this `isAllowedAction()` method, which is the same as `isAllowed()`, but it receives an `action` argument, which allows the method to analyze the call from the resource action point of view rather than the HTTP method. The `action` argument can be "search", "create" (for collection resource handlers), "read", "update" or "delete" (for individual resource handlers). The method also receives `actor` extracted from the `call`, just for the implementation's convenience.
 
 In general, the functions and properties defined on the extension are simply copied to the handler instance when it is created by the factory. The extension, therefore, can also completely redefine handler methods by providing its own implementations of `GET()`, `POST()`, etc.
 
@@ -599,6 +599,8 @@ ws.createApplication()
 ```
 
 The above removes the `DELETE()` method and replaces it with a Boolean `false` property on the handler thus telling the framework that the handler does not support HTTP `DELETE` method.
+
+The extension provided to the `individualResource()` can also define `getRecordId(call)` method. The method is used to get the id of the addressed record. The default implementation, used when the method is not overridden in the handler extension, extracts the id from the last positional URI parameter. Note, that the id value returned by the method must have the type matching the record type's id field.
 
 ### Handler Transaction Hooks
 
